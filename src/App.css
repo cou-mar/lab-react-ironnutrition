@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.formStyle{
+  margin: 30px 300px;
+}
+
+h1{
+  text-align: center;
+}
+
+.searchBar{
+  margin: 30px 300px;
+}
