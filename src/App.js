@@ -8,6 +8,7 @@ import { Row,Input } from 'antd';
 
 function App() {
   const [foods, setFoods] = useState(foodData);
+  const [filteredFoods, setFilteredFoods] = useState(foodData);
 
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
@@ -32,10 +33,21 @@ function App() {
     const copyFoodArr = [...foods];
     copyFoodArr.push({name, image, calories, servings});
     setFoods(copyFoodArr); //setting the value of the old arr into the new copy
+    setFilteredFoods(copyFoodArr); //need this one as well so that what we add shows up to the list
     setName('');
     setImage('');
     setCalories(0);
     setServings(0); //set values of the form to zero after adding
+  }
+
+  const deleteFunction = (singleFood) => {
+    const newArr = filteredFoods.filter(element => {
+      return (
+        element.name !== singleFood.name
+      )
+    })
+    setFilteredFoods(newArr);
+    setFoods(newArr); //need both so we can delete from both arrays. must keep them in sync with each other
   }
 
   return (
@@ -65,10 +77,10 @@ function App() {
     <label>Search</label>
     <Input
       onChange= {(event) => {
-        const newList = foodData.filter(singleFood => {
+        const newList = foods.filter(singleFood => {
             return singleFood.name.toLowerCase().includes(event.target.value.toLowerCase());
           })
-        setFoods(newList);
+        setFilteredFoods(newList);
       }}
     />
   </div>
@@ -76,10 +88,10 @@ function App() {
       <h1>Food List</h1>
 
       <Row>
-        {foods.map((element) => {
+        {filteredFoods.map((element) => {
           return (
             <div>
-              <FoodBox food={element} />
+              <FoodBox food={element} click={deleteFunction} />
             </div>
           );
         })}
