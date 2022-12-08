@@ -3,8 +3,8 @@ import foodData from './foods.json';
 import { useState } from 'react';
 import FoodBox from './components/FoodBox';
 import AddFoodForm from './components/AddFoodForm';
-import { Row } from 'antd';
-import Search from 'antd/es/transfer/search';
+import { Row,Input } from 'antd';
+// import Search from './components/Search';
 
 function App() {
   const [foods, setFoods] = useState(foodData);
@@ -36,18 +36,6 @@ function App() {
     setImage('');
     setCalories(0);
     setServings(0); //set values of the form to zero after adding
-
-  }
-  <span>Search bar:</span>
-  const searchFunction = (event) => {
-    <input onChange={(event) => {
-      const newList = foods.filter(
-        singleFood => {
-          return singleFood.toLocaleLowerCase().includes(event.target.value.toLocaleLowerCase());
-        }
-      )
-      setFoods(newList);
-    }} />
   }
 
   return (
@@ -64,15 +52,27 @@ function App() {
           updatedServings={updatedServings}
 
           submit={submitFunction}
-          search={searchFunction}
+          // search={searchFunction}
         />
 
       </div>
 
-      <div className='searchBar'>
+      {/* <div className='searchBar'>
         <Search searchFunction={searchFunction}/>
-      </div>
+      </div> */}
       
+  <div className='searchBar'>
+    <label>Search</label>
+    <Input
+      onChange= {(event) => {
+        const newList = foodData.filter(singleFood => {
+            return singleFood.name.toLowerCase().includes(event.target.value.toLowerCase());
+          })
+        setFoods(newList);
+      }}
+    />
+  </div>
+
       <h1>Food List</h1>
 
       <Row>
